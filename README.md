@@ -1,4 +1,4 @@
-# Smart Patient Monitoring System using ESP32-CAM
+# Patient Monitoring and Identification System
 
 ## Overview
 This project is a smart healthcare monitoring system using ESP32-CAM for facial recognition and real-time monitoring of patient vitals such as temperature, ECG, and heartbeat. The system detects abnormalities and sends alerts along with data over Wi-Fi for remote monitoring.
