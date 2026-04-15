@@ -1,0 +1,110 @@
+#include <WiFi.h>
+
+// ----- WiFi Credentials -----
+const char* ssid = "Galaxy23";
+const char* password = "muskaan123";
+
+// ----- Sensor Pins -----
+#define TEMP_PIN 34
+#define HEART_PIN 35
+#define ECG_PIN 32
+
+// ----- Thresholds -----
+float TEMP_THRESHOLD = 38.0;   // Celsius
+int HEART_THRESHOLD = 100;     // BPM (approx)
+int ECG_THRESHOLD = 500;       // Example value
+
+// ----- Variables -----
+float temperature;
+int heartRate;
+int ecgValue;
+
+// ----- Setup -----
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(TEMP_PIN, INPUT);
+  pinMode(HEART_PIN, INPUT);
+  pinMode(ECG_PIN, INPUT);
+
+  connectWiFi();
+}
+
+// ----- Loop -----
+void loop() {
+
+  // Simulate Face Recognition (always true for now)
+  bool faceRecognized = true;
+
+  if (faceRecognized) {
+
+    // Read sensors
+    temperature = readTemperature();
+    heartRate = readHeartRate();
+    ecgValue = readECG();
+
+    // Print values
+    Serial.println("----- Patient Data -----");
+    Serial.print("Temperature: "); Serial.println(temperature);
+    Serial.print("Heart Rate: "); Serial.println(heartRate);
+    Serial.print("ECG Value: "); Serial.println(ecgValue);
+
+    // Check abnormal condition
+    if (isAbnormal(temperature, heartRate, ecgValue)) {
+      triggerAlert();
+    }
+
+    // Send data via WiFi
+    sendData(temperature, heartRate, ecgValue);
+  }
+
+  delay(3000);
+}
+
+// ----- Functions -----
+
+void connectWiFi() {
+  Serial.print("Connecting to WiFi...");
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("\nConnected to WiFi");
+}
+
+// Simulated temperature (replace with real sensor logic)
+float readTemperature() {
+  int raw = analogRead(TEMP_PIN);
+  return (raw / 4095.0) * 50;  // simple conversion
+}
+
+// Simulated heart rate
+int readHeartRate() {
+  return analogRead(HEART_PIN) / 10;
+}
+
+// Simulated ECG
+int readECG() {
+  return analogRead(ECG_PIN);
+}
+
+// Check abnormal condition
+bool isAbnormal(float temp, int heart, int ecg) {
+  if (temp > TEMP_THRESHOLD || heart > HEART_THRESHOLD || ecg > ECG_THRESHOLD) {
+    return true;
+  }
+  return false;
+}
+
+// Alert function
+void triggerAlert() {
+  Serial.println("ALERT: Abnormal Condition Detected!");
+}
+
+// Send data (basic simulation)
+void sendData(float temp, int heart, int ecg) {
+  Serial.println("Sending data via WiFi...");
+}
