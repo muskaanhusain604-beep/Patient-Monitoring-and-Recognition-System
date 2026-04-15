@@ -11,15 +11,12 @@ This project is a smart healthcare monitoring system using ESP32-CAM for facial 
 - Wi-Fi-based remote monitoring  
 
 ## System Architecture
-
 ```mermaid
 flowchart LR
-
 A[Capture Image] --> B[Face Detection]
 B --> C{Face Recognized}
 
 C -- No --> D[Stop]
-
 C -- Yes --> E[Read Sensors]
 
 E --> F[Temperature]
@@ -30,16 +27,16 @@ F --> I[Compare Threshold]
 G --> I
 H --> I
 
-I --> J{Abnormal?}
+I --> J{Abnormal}
 
 J -- Yes --> K[Trigger Alert]
 J -- No --> L[Continue Monitoring]
 
-K --> M[Send Data via WiFi]
+K --> M[Send Data WiFi]
 L --> M
 
 M --> N[End]
-
+```
 ## Hardware Components
 - ESP32-CAM  
 - Temperature Sensor (LM35 / DS18B20)  
