@@ -10,24 +10,35 @@ This project is a smart healthcare monitoring system using ESP32-CAM for facial 
 - Automatic alert system  
 - Wi-Fi-based remote monitoring  
 
-## System Flow
+## System Architecture
+
 ```mermaid
-flowchart TD
-    A[Start] --> B[Capture Image (ESP32-CAM)]
-    B --> C{Face Detected?}
-    C -- No --> D[Stop]
-    C -- Yes --> E[Recognize Face]
-    E --> F{Known Patient?}
-    F -- No --> D
-    F -- Yes --> G[Read Sensors]
-    G --> H[Collect Vitals (Temp, ECG, Heartbeat)]
-    H --> I[Compare with Threshold]
-    I --> J{Abnormal Condition?}
-    J -- Yes --> K[Send Alert]
-    J -- No --> L[Continue Monitoring]
-    K --> M[Send Data via WiFi]
-    L --> M
-    M --> N[End]
+flowchart LR
+
+A[Capture Image] --> B[Face Detection]
+B --> C{Face Recognized}
+
+C -- No --> D[Stop]
+
+C -- Yes --> E[Read Sensors]
+
+E --> F[Temperature]
+E --> G[ECG]
+E --> H[Heartbeat]
+
+F --> I[Compare Threshold]
+G --> I
+H --> I
+
+I --> J{Abnormal?}
+
+J -- Yes --> K[Trigger Alert]
+J -- No --> L[Continue Monitoring]
+
+K --> M[Send Data via WiFi]
+L --> M
+
+M --> N[End]
 
 ## Hardware Components
 - ESP32-CAM  
